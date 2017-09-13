@@ -1,0 +1,26 @@
+---
+
+- name: install samba
+  package:
+    name: "{{ item }}"
+  with_items:
+    - samba
+    - samba-winbind-clients
+
+- name: samba config
+  template:
+    src: "{{ item }}"
+    dest: "/etc/samba/{{ samba_cfg }}"
+    backup: yes
+    validate: testparm %s
+  with_first_found:
+    - "{{ playbook_dir }}/templates/{{ samba_cfg }}.j2"
+    - "{{ samba_cfg }}.j2"
+  notify: reload samba
+
+# not implemented: add to windows domain
+
+- name: start samba
+  service:
+    name: smb
+    state: started
