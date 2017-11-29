@@ -14,7 +14,8 @@
     backup: yes
     validate: testparm %s
   with_first_found:
-    - "{{ playbook_dir }}/templates/{{ samba_cfg }}.j2"
+    - "{{ playbook_dir }}/files/{{ cfg }}"
+    - "{{ playbook_dir }}/templates/{{ cfg }}.j2"
     - "{{ samba_cfg }}.j2"
   notify: reload samba
 
